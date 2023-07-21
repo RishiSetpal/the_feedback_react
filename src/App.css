@@ -1,5 +1,5 @@
 * {
-  font-size: 30px;
+  font-size: 25px;
   color: blueviolet;
 }
 
@@ -53,15 +53,14 @@ input[type=submit] {
   color: white;
 }
 
-span {
+.error-text {
   color: brown;
   font-size: 20px;
 }
 
 
 /* The message box is shown when the user clicks on the password field */
-#message {
-  display: none;
+.message {
   background: #f1f1f1;
   color: #000;
   position: relative;
@@ -69,8 +68,8 @@ span {
   margin-top: 10px;
 }
 
-#message p {
-  padding: 10px 35px;
+.message p {
+  padding: 0px 35px;
   font-size: 18px;
 }
 
@@ -81,7 +80,7 @@ span {
 
 .valid:before {
   position: relative;
-  left: -35px;
+  left: -8px;
   content: "✔";
 }
 
@@ -92,6 +91,6 @@ span {
 
 .invalid:before {
   position: relative;
-  left: -35px;
+  left: -8px;
   content: "✖";
 }
