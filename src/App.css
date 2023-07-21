@@ -60,7 +60,7 @@ input[type=submit] {
 
 
 /* The message box is shown when the user clicks on the password field */
-.message {
+.passwordValidationMessage {
   background: #f1f1f1;
   color: #000;
   position: relative;
@@ -68,7 +68,7 @@ input[type=submit] {
   margin-top: 10px;
 }
 
-.message p {
+.passwordValidationMessage p {
   padding: 0px 35px;
   font-size: 18px;
 }

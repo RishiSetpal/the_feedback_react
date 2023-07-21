@@ -178,7 +178,7 @@ const SignUpForm = () => {
             {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
           </label>
         </div>
-        <div className="message"  style={{ display: errors.password && formData.password.length > 0 ? 'block' : 'none' }}>
+        <div className="passwordValidationMessage"  style={{ display: errors.password && formData.password.length > 0 ? 'block' : 'none' }}>
           <h3>Password must contain the following:</h3>
           <p className={formData.password.match(/[a-z]/g) ? 'valid' : 'invalid'}>
             A lowercase letter
