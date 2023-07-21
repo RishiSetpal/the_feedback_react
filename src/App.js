@@ -1,23 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ValidationSchemaExample } from './screens/components/ValidationSchemaExample';
+import SignUpForm from './screens/components/SignUpForm';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          {/* <Route path="/" element={<ValidationSchemaExample></ValidationSchemaExample>}></Route> */}
+          <Route path="/" element={<SignUpForm></SignUpForm>}></Route>
+          <Route path="/signup" element={<SignUpForm></SignUpForm>}></Route>
+          {/* <Route path="/login" element={<LoginForm></LoginForm>}></Route>
+          <Route path="*" element={<ClinetDashboard></ClinetDashboard>}></Route> */}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
