@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+// import {app} from "../../Firebase/FbConfig";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getDatabase, ref, push, set } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +12,8 @@ const SignUpForm = () => {
     password: '',
     confirmPassword: '',
   });
+
+  const nav = useNavigate();
 
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -39,6 +45,54 @@ const SignUpForm = () => {
     if (Object.keys(validationErrors).length === 0) {
       // Form is valid, submit data or perform actions
       console.log('Form data:', formData);
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, formData.emailId, formData.password)
+        .then((res)=> {
+            console.log('res: ', res);            
+            if (res.user != null){
+                sendEmailVerification(res.user);
+
+                // Firebase basics
+                // https://chat.openai.com/share/c3335c1c-61a9-4973-86df-c0d765fb052c
+                const db = getDatabase();
+                const sanitizedNodeName = formData.emailId.replace(/[@.]/g, (match) => (match === "@" ? "_at_" : "_dot_"));
+                
+                // Now use the sanitizedNodeName as the key when writing to the database
+                // firebase.database().ref("users/" + sanitizedNodeName).set({ /* Your data here */ });
+                // firebase.database().ref("users").push({ /* Your data here */ }); // this will create its own Node Name.
+
+                const usersRef = ref(db, 'users/'+ sanitizedNodeName+'/');
+                const userData = {
+                  userName: formData.userName,
+                  emailId: formData.emailId,
+                  phone: formData.phone,
+                  password: formData.password,
+                  confirmPassword: formData.confirmPassword,
+                };
+                // push(usersRef, userData)
+                // push will will push inside the email one node (so Prob, there might me multiple nodes) (&  Prob2, node name is random)
+                // So, Sol will use set 
+                // set(usersRef, userData)
+                set(usersRef, userData)
+                  .then(() => {
+                    console.log('User details stored in Realtime Database');
+                  })
+                  .catch((error) => {
+                    console.error('Error storing user details:', error);
+                  });
+            }
+            nav("/login");
+        })
+        .catch(err=> {
+          console.log('err: '+JSON.stringify(err));
+          if (err.code === 'auth/email-already-in-use') {
+            alert("Authentication Failure: Email Id already in use.");
+          }
+          else {
+            alert("Erro: "+err.code);
+          }
+        });
+
     } else {
       // Form has errors, update the state with the errors
       setErrors(validationErrors);
